@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView
 from .models import Vehicle
 from .forms import VehicleForm
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 
 class VehicleListView(ListView):
     model = Vehicle
@@ -16,8 +17,11 @@ def vehicle_add(request):
         form = VehicleForm(request.POST)
 
         if form.is_valid():
+
             form.save()
+
             return redirect("vehicle_list")
+
 
     else:
 
@@ -31,3 +35,22 @@ def vehicle_add(request):
             "form": form
         }
     )
+
+class VehicleDetailView(DetailView):
+
+    model = Vehicle
+    template_name = "fleet/vehicle_detail.html"
+    context_object_name = "vehicle"
+
+class VehicleUpdateView(UpdateView):
+
+    model = Vehicle
+    form_class = VehicleForm
+    template_name = "fleet/vehicle_add.html"
+    success_url = reverse_lazy("vehicle_list")
+
+class VehicleDeleteView(DeleteView):
+
+    model = Vehicle
+    template_name = "fleet/vehicle_delete.html"
+    success_url = reverse_lazy("vehicle_list")
