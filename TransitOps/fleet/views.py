@@ -19,7 +19,7 @@ class VehicleListView(ListView):
     context_object_name = "vehicles"
     paginate_by = 10
 
-
+@login_required
 @allowed_roles(["Fleet Manager"])
 def vehicle_add(request):
 
@@ -78,6 +78,10 @@ class VehicleDeleteView(DeleteView):
     template_name = "fleet/vehicle_delete.html"
     success_url = reverse_lazy("vehicle_list")
 
+@method_decorator(
+    [login_required, allowed_roles(["Fleet Manager"])],
+    name="dispatch"
+)
 class DriverListView(ListView):
 
     model = Driver
@@ -85,6 +89,8 @@ class DriverListView(ListView):
     context_object_name = "drivers"
     paginate_by = 10
 
+@login_required
+@allowed_roles(["Fleet Manager"])
 def driver_add(request):
 
     if request.method == "POST":
@@ -95,7 +101,7 @@ def driver_add(request):
 
             form.save()
 
-            return redirect("driver_list")
+            return redirect("fleet:driver_list")
 
 
     else:
@@ -110,6 +116,11 @@ def driver_add(request):
             "form": form
         }
     )
+
+@method_decorator(
+    [login_required, allowed_roles(["Fleet Manager"])],
+    name="dispatch"
+)
 class DriverDetailView(DetailView):
 
     model = Driver
@@ -117,7 +128,10 @@ class DriverDetailView(DetailView):
     context_object_name = "driver"
 
 
-
+@method_decorator(
+    [login_required, allowed_roles(["Fleet Manager"])],
+    name="dispatch"
+)
 class DriverUpdateView(UpdateView):
 
     model = Driver
@@ -125,9 +139,12 @@ class DriverUpdateView(UpdateView):
     template_name = "fleet/driver_add.html"
     success_url = reverse_lazy("driver_list")
 
+@method_decorator(
+    [login_required, allowed_roles(["Fleet Manager"])],
+    name="dispatch"
+)
 class DriverDeleteView(DeleteView):
 
     model = Driver
     template_name = "fleet/driver_delete.html"
-    success_url = reverse_lazy("driver_list")
-    success_url = reverse_lazy("fleet:vehicle_list")
+    success_url = reverse_lazy("fleet:driver_list")

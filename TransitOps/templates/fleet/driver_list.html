@@ -60,7 +60,7 @@
 
 
 
-        <a href="{% url 'driver_add' %}"
+        <a href="{% url 'fleet:driver_add' %}"
            class="btn btn-success">
 
 
@@ -261,7 +261,7 @@
                         <td>
 
 
-                            <a href="{% url 'driver_detail' driver.pk %}"
+                            <a href="{% url 'fleet:driver_detail' driver.pk %}"
 
                                class="btn btn-info btn-sm text-white">
 
@@ -289,7 +289,7 @@
                         <td>
 
 
-                            <a href="{% url 'driver_edit' driver.pk %}"
+                            <a href="{% url 'fleet:driver_edit' driver.pk %}"
 
                                class="btn btn-warning btn-sm">
 
@@ -317,7 +317,7 @@
                         <td>
 
 
-                            <a href="{% url 'driver_delete' driver.pk %}"
+                            <a href="{% url 'fleet:driver_delete' driver.pk %}"
 
                                class="btn btn-danger btn-sm">
 

@@ -48,7 +48,7 @@
 
 
 
-        <a href="{% url 'driver_list' %}"
+        <a href="{% url 'fleet:driver_list' %}"
            class="btn btn-outline-secondary">
 
             ← Back to Drivers
@@ -311,7 +311,7 @@
         <div class="card-footer text-end">
 
 
-            <a href="{% url 'driver_edit' driver.pk %}"
+            <a href="{% url 'fleet:driver_edit' driver.pk %}"
                class="btn btn-warning">
 
 
@@ -326,7 +326,7 @@
 
 
 
-            <a href="{% url 'driver_delete' driver.pk %}"
+            <a href="{% url 'fleet:driver_delete' driver.pk %}"
                class="btn btn-danger">
 
 
