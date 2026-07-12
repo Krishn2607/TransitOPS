@@ -53,8 +53,6 @@ class VehicleDeleteView(DeleteView):
 
     model = Vehicle
     template_name = "fleet/vehicle_delete.html"
-<<<<<<< Updated upstream
-=======
     success_url = reverse_lazy("vehicle_list")
 
 class DriverListView(ListView):
@@ -109,5 +107,4 @@ class DriverDeleteView(DeleteView):
     model = Driver
     template_name = "fleet/driver_delete.html"
     success_url = reverse_lazy("driver_list")
->>>>>>> Stashed changes
     success_url = reverse_lazy("fleet:vehicle_list")
