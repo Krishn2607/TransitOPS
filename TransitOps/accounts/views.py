@@ -1,17 +1,20 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
-
 from django.contrib.auth.models import User
 
-from .forms import RegisterForm
+from .forms import RegisterForm, ProfileUpdateForm
 from .models import Profile
 
 
 # ---------------- Register ----------------
 
 def register(request):
+
+    if request.user.is_authenticated:
+        return redirect("dashboard")
 
     if request.method == "POST":
 
@@ -32,7 +35,7 @@ def register(request):
                 role=form.cleaned_data["role"]
             )
 
-            messages.success(request, "Account created successfully.")
+            messages.success(request, "Registration Successful.")
             return redirect("login")
 
     else:
@@ -60,13 +63,12 @@ def login_view(request):
         )
 
         if user is not None:
-
             login(request, user)
-
+            messages.success(request, "Welcome Back!")
             return redirect("dashboard")
 
         else:
-            messages.error(request, "Invalid username or password.")
+            messages.error(request, "Invalid Username or Password")
 
     return render(request, "accounts/login.html")
 
@@ -77,6 +79,7 @@ def login_view(request):
 def logout_view(request):
 
     logout(request)
+    messages.success(request, "Logged Out Successfully")
 
     return redirect("login")
 
@@ -86,10 +89,84 @@ def logout_view(request):
 @login_required
 def profile(request):
 
-    profile = Profile.objects.get(user=request.user)
+    profile = request.user.profile
 
     context = {
         "profile": profile
     }
 
     return render(request, "accounts/profile.html", context)
+
+
+# ---------------- Edit Profile ----------------
+
+@login_required
+def edit_profile(request):
+
+    profile = request.user.profile
+
+    if request.method == "POST":
+
+        form = ProfileUpdateForm(
+            request.POST,
+            request.FILES,
+            instance=profile,
+            user=request.user
+        )
+
+        if form.is_valid():
+
+            request.user.first_name = form.cleaned_data["first_name"]
+            request.user.last_name = form.cleaned_data["last_name"]
+            request.user.email = form.cleaned_data["email"]
+
+            request.user.save()
+
+            form.save()
+
+            messages.success(request, "Profile Updated Successfully")
+
+            return redirect("profile")
+
+    else:
+
+        form = ProfileUpdateForm(
+            instance=profile,
+            user=request.user
+        )
+
+    return render(
+        request,
+        "accounts/edit_profile.html",
+        {"form": form}
+    )
+
+
+# ---------------- Change Password ----------------
+
+@login_required
+def change_password(request):
+
+    if request.method == "POST":
+
+        form = PasswordChangeForm(request.user, request.POST)
+
+        if form.is_valid():
+
+            user = form.save()
+
+            update_session_auth_hash(request, user)
+
+            messages.success(request, "Password Changed Successfully")
+
+            return redirect("profile")
+
+    else:
+
+        form = PasswordChangeForm(request.user)
+
+    return render(
+        request,
+        "accounts/change_password.html",
+        {"form": form}
+    )
