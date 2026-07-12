@@ -130,11 +130,5 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 LOGIN_URL = "/login/"
-<<<<<<< HEAD
 LOGIN_REDIRECT_URL = "/"
-=======
-
-LOGIN_REDIRECT_URL = "/"
-
->>>>>>> 08b467a1625a8bc9491defde5e9e12ccc9da9ec9
 LOGOUT_REDIRECT_URL = "/login/"
