@@ -20,7 +20,7 @@ def vehicle_add(request):
 
             form.save()
 
-            return redirect("vehicle_list")
+            return redirect("fleet:vehicle_list")
 
 
     else:
@@ -47,10 +47,10 @@ class VehicleUpdateView(UpdateView):
     model = Vehicle
     form_class = VehicleForm
     template_name = "fleet/vehicle_add.html"
-    success_url = reverse_lazy("vehicle_list")
+    success_url = reverse_lazy("fleet:vehicle_list")
 
 class VehicleDeleteView(DeleteView):
 
     model = Vehicle
     template_name = "fleet/vehicle_delete.html"
-    success_url = reverse_lazy("vehicle_list")
+    success_url = reverse_lazy("fleet:vehicle_list")
