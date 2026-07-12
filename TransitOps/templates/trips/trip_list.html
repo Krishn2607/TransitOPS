@@ -1,134 +1,197 @@
 {% extends "base.html" %}
 
+{% block title %}
+Trip List
+{% endblock %}
+
 {% block content %}
-<div class="container mt-4">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-        <h2>Trip Management</h2>
+    <h2 class="fw-bold">
+        Trip Management
+    </h2>
 
-        <a href="{% url 'trips:trip_create' %}"
-           class="btn btn-primary">
+    <a href="{% url 'trips:trip_create' %}"
+       class="btn btn-primary">
 
-            Create Trip
+        <i class="bi bi-plus-circle"></i>
+        Create Trip
 
-        </a>
+    </a>
+
+</div>
+
+<div class="card shadow">
+
+    <div class="card-body">
+
+        <table class="table table-bordered table-hover align-middle">
+
+            <thead class="table-dark">
+
+                <tr>
+
+                    <th>Trip ID</th>
+
+                    <th>Source</th>
+
+                    <th>Destination</th>
+
+                    <th>Cargo</th>
+
+                    <th>Status</th>
+
+                    <th>Start</th>
+
+                    <th>End</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for trip in trips %}
+
+                <tr>
+
+                    <td>{{ trip.trip_id }}</td>
+
+                    <td>{{ trip.source }}</td>
+
+                    <td>{{ trip.destination }}</td>
+
+                    <td>{{ trip.cargo_type }}</td>
+
+                    <td>
+
+                        {% if trip.status == "Pending" %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                {{ trip.status }}
+
+                            </span>
+
+                        {% elif trip.status == "Dispatched" %}
+
+                            <span class="badge bg-info">
+
+                                {{ trip.status }}
+
+                            </span>
+
+                        {% elif trip.status == "In Progress" %}
+
+                            <span class="badge bg-primary">
+
+                                {{ trip.status }}
+
+                            </span>
+
+                        {% elif trip.status == "Completed" %}
+
+                            <span class="badge bg-success">
+
+                                {{ trip.status }}
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-danger">
+
+                                {{ trip.status }}
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {{ trip.start_datetime }}
+
+                    </td>
+
+                    <td>
+
+                        {{ trip.end_datetime }}
+
+                    </td>
+
+                    <td>
+
+                        <a
+                            href="{% url 'trips:trip_detail' trip.pk %}"
+                            class="btn btn-info btn-sm">
+
+                            View
+
+                        </a>
+
+                        <a
+                            href="{% url 'trips:trip_update' trip.pk %}"
+                            class="btn btn-warning btn-sm">
+
+                            Edit
+
+                        </a>
+
+                        <a
+                            href="{% url 'trips:trip_assign' trip.pk %}"
+                            class="btn btn-secondary btn-sm">
+
+                            Assign
+
+                        </a>
+
+                        <a
+                            href="{% url 'trips:trip_change_status' trip.pk %}"
+                            class="btn btn-success btn-sm">
+
+                            Status
+
+                        </a>
+
+                        <a
+                            href="{% url 'trips:trip_delete' trip.pk %}"
+                            class="btn btn-danger btn-sm">
+
+                            Delete
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td
+                        colspan="8"
+                        class="text-center text-muted">
+
+                        No Trips Found.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
 
     </div>
-    {% if messages %}
 
-    {% for message in messages %}
-
-        <div class="alert alert-{{ message.tags }}">
-
-            {{ message }}
-
-        </div>
-
-    {% endfor %}
-
-{% endif %}
-<table class="table table-bordered table-hover">
-
-    <thead class="table-dark">
-
-        <tr>
-
-            <th>Trip ID</th>
-
-            <th>Source</th>
-
-            <th>Destination</th>
-
-            <th>Cargo</th>
-
-            <th>Status</th>
-
-            <th>Start</th>
-
-            <th>End</th>
-
-            <th>Actions</th>
-
-        </tr>
-
-    </thead>
-
-    <tbody>
-    {% for trip in trips %}
-
-<tr>
-
-    <td>{{ trip.trip_id }}</td>
-
-    <td>{{ trip.source }}</td>
-
-    <td>{{ trip.destination }}</td>
-
-    <td>{{ trip.cargo_type }}</td>
-
-    <td>{{ trip.status }}</td>
-
-    <td>{{ trip.start_datetime }}</td>
-
-    <td>{{ trip.end_datetime }}</td>
-
-    <td>
-    <a href="{% url 'trips:trip_detail' trip.pk %}"
-   class="btn btn-info btn-sm">
-
-    View
-
-</a>
-
-<a href="{% url 'trips:trip_update' trip.pk %}"
-   class="btn btn-warning btn-sm">
-
-    Edit
-
-</a>
-
-<a href="{% url 'trips:trip_assign' trip.pk %}"
-   class="btn btn-secondary btn-sm">
-
-    Assign
-
-</a>
-
-<a href="{% url 'trips:trip_change_status' trip.pk %}"
-   class="btn btn-success btn-sm">
-
-    Status
-
-</a>
-
-<a href="{% url 'trips:trip_delete' trip.pk %}"
-   class="btn btn-danger btn-sm">
-
-    Delete
-
-</a>
-</td>
-
-</tr>
-
-{% empty %}
-
-<tr>
-
-    <td colspan="8"
-        class="text-center">
-
-        No Trips Found.
-
-    </td>
-
-</tr>
-
-{% endfor %}
-</tbody>
-
-</table>
 </div>
 
 {% endblock %}

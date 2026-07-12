@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}
+Change Trip Status
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-md-8 mx-auto">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-success text-white">
+
+                    <h3>
+
+                        Change Trip Status
+
+                    </h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-bordered mb-4">
+
+                        <tr>
+
+                            <th width="30%">
+
+                                Trip ID
+
+                            </th>
+
+                            <td>
+
+                                {{ trip.trip_id }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Source
+
+                            </th>
+
+                            <td>
+
+                                {{ trip.source }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Destination
+
+                            </th>
+
+                            <td>
+
+                                {{ trip.destination }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Current Status
+
+                            </th>
+
+                            <td>
+
+                                <span class="badge bg-primary">
+
+                                    {{ trip.status }}
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                New Status
+
+                            </label>
+
+                            {{ form.new_status }}
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Remarks
+
+                            </label>
+
+                            {{ form.remarks }}
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-success">
+
+                            Update Status
+
+                        </button>
+
+                        <a
+                            href="{% url 'trips:trip_detail' trip.pk %}"
+                            class="btn btn-secondary">
+
+                            Cancel
+
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

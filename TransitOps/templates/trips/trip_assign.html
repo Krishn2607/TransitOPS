@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block title %}
+Assign Trip
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-md-8 mx-auto">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h3>
+
+                        Assign Vehicle & Driver
+
+                    </h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="mb-4">
+
+                        <table class="table table-bordered">
+
+                            <tr>
+
+                                <th width="30%">
+
+                                    Trip ID
+
+                                </th>
+
+                                <td>
+
+                                    {{ trip.trip_id }}
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>
+
+                                    Source
+
+                                </th>
+
+                                <td>
+
+                                    {{ trip.source }}
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>
+
+                                    Destination
+
+                                </th>
+
+                                <td>
+
+                                    {{ trip.destination }}
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>
+
+                                    Current Status
+
+                                </th>
+
+                                <td>
+
+                                    {{ trip.status }}
+
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Vehicle
+
+                            </label>
+
+                            {{ form.vehicle }}
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Driver
+
+                            </label>
+
+                            {{ form.driver }}
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Notes
+
+                            </label>
+
+                            {{ form.notes }}
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-success">
+
+                            Assign Trip
+
+                        </button>
+
+                        <a
+                            href="{% url 'trips:trip_detail' trip.pk %}"
+                            class="btn btn-secondary">
+
+                            Cancel
+
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

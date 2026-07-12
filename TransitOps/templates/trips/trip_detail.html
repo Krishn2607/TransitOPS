@@ -1,0 +1,328 @@
+{% extends "base.html" %}
+
+{% block title %}
+Trip Details
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2>
+            Trip Details
+        </h2>
+
+        <a href="{% url 'trips:trip_list' %}"
+           class="btn btn-secondary">
+
+            Back
+
+        </a>
+
+    </div>
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4>
+                Trip Information
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <tr>
+                    <th width="30%">Trip ID</th>
+                    <td>{{ trip.trip_id }}</td>
+                </tr>
+
+                <tr>
+                    <th>Source</th>
+                    <td>{{ trip.source }}</td>
+                </tr>
+
+                <tr>
+                    <th>Destination</th>
+                    <td>{{ trip.destination }}</td>
+                </tr>
+
+                <tr>
+                    <th>Cargo Type</th>
+                    <td>{{ trip.cargo_type }}</td>
+                </tr>
+
+                <tr>
+                    <th>Cargo Weight</th>
+                    <td>{{ trip.cargo_weight }}</td>
+                </tr>
+
+                <tr>
+                    <th>Distance</th>
+                    <td>{{ trip.distance }} KM</td>
+                </tr>
+
+                <tr>
+                    <th>Estimated Duration</th>
+                    <td>{{ trip.estimated_duration }} Minutes</td>
+                </tr>
+
+                <tr>
+                    <th>Revenue</th>
+                    <td>₹ {{ trip.revenue }}</td>
+                </tr>
+
+                <tr>
+                    <th>Start Date & Time</th>
+                    <td>{{ trip.start_datetime }}</td>
+                </tr>
+
+                <tr>
+                    <th>End Date & Time</th>
+                    <td>{{ trip.end_datetime }}</td>
+                </tr>
+
+                <tr>
+                    <th>Status</th>
+                    <td>{{ trip.status }}</td>
+                </tr>
+
+                <tr>
+                    <th>Remarks</th>
+                    <td>{{ trip.remarks }}</td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-success text-white">
+
+            <h4>
+
+                Assignment Details
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if assignment %}
+
+            <table class="table table-bordered">
+
+                <tr>
+
+                    <th width="30%">
+
+                        Vehicle
+
+                    </th>
+
+                    <td>
+
+                        {{ assignment.vehicle }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Driver
+
+                    </th>
+
+                    <td>
+
+                        {{ assignment.driver }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Assigned By
+
+                    </th>
+
+                    <td>
+
+                        {{ assignment.assigned_by }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Assigned At
+
+                    </th>
+
+                    <td>
+
+                        {{ assignment.assigned_at }}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>
+
+                        Notes
+
+                    </th>
+
+                    <td>
+
+                        {{ assignment.notes }}
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+            {% else %}
+
+            <div class="alert alert-warning">
+
+                No Vehicle or Driver Assigned.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-header bg-dark text-white">
+
+            <h4>
+
+                Status History
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-striped">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Old Status</th>
+
+                        <th>New Status</th>
+
+                        <th>Changed By</th>
+
+                        <th>Date</th>
+
+                        <th>Remarks</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for history in status_history %}
+
+                    <tr>
+
+                        <td>{{ history.old_status }}</td>
+
+                        <td>{{ history.new_status }}</td>
+
+                        <td>{{ history.changed_by }}</td>
+
+                        <td>{{ history.changed_at }}</td>
+
+                        <td>{{ history.remarks }}</td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="5" class="text-center">
+
+                            No Status History Found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="mt-4">
+
+        <a href="{% url 'trips:trip_update' trip.pk %}"
+           class="btn btn-warning">
+
+            Edit
+
+        </a>
+
+        <a href="{% url 'trips:trip_assign' trip.pk %}"
+           class="btn btn-primary">
+
+            Assign
+
+        </a>
+
+        <a href="{% url 'trips:trip_change_status' trip.pk %}"
+           class="btn btn-success">
+
+            Change Status
+
+        </a>
+
+        <a href="{% url 'trips:trip_delete' trip.pk %}"
+           class="btn btn-danger">
+
+            Delete
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block title %}
+Trip Form
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-md-10 mx-auto">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+
+                    {% if trip %}
+
+                        <h3>Edit Trip</h3>
+
+                    {% else %}
+
+                        <h3>Create New Trip</h3>
+
+                    {% endif %}
+
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Source
+
+                                </label>
+
+                                {{ form.source }}
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Destination
+
+                                </label>
+
+                                {{ form.destination }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Cargo Type
+
+                                </label>
+
+                                {{ form.cargo_type }}
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Cargo Weight (Kg)
+
+                                </label>
+
+                                {{ form.cargo_weight }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Distance (Km)
+
+                                </label>
+
+                                {{ form.distance }}
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Estimated Duration (Minutes)
+
+                                </label>
+
+                                {{ form.estimated_duration }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Revenue
+
+                                </label>
+
+                                {{ form.revenue }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Start Date & Time
+
+                                </label>
+
+                                {{ form.start_datetime }}
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    End Date & Time
+
+                                </label>
+
+                                {{ form.end_datetime }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Remarks
+
+                            </label>
+
+                            {{ form.remarks }}
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-success">
+
+                            <i class="bi bi-check-circle"></i>
+
+                            Save Trip
+
+                        </button>
+
+                        <a
+                            href="{% url 'trips:trip_list' %}"
+                            class="btn btn-secondary">
+
+                            Cancel
+
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
