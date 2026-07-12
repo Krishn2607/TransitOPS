@@ -57,8 +57,7 @@
 
 
 
-        <a href="{% url 'vehicle_add' %}" 
-           class="btn btn-success">
+        <a href="{% url 'fleet:vehicle_add' %}" class="btn btn-success">
 
 
             <i class="bi bi-plus-circle"></i>
@@ -241,7 +240,7 @@
                         <td>
 
 
-                            <a href="{% url 'vehicle_detail' vehicle.pk %}"
+                            <a href="{% url 'fleet:vehicle_detail' vehicle.pk %}"
 
                                class="btn btn-info btn-sm text-white">
 
@@ -269,7 +268,7 @@
                         <td>
 
 
-                            <a href="{% url 'vehicle_edit' vehicle.pk %}"
+                            <a href="{% url 'fleet:vehicle_edit' vehicle.pk %}"
 
                                class="btn btn-warning btn-sm">
 
@@ -297,8 +296,7 @@
                         <td>
 
 
-                            <a href="{% url 'vehicle_delete' vehicle.pk %}"
-
+                            <a href="{% url 'fleet:vehicle_delete' vehicle.pk %}"
                                class="btn btn-danger btn-sm">
 
 
