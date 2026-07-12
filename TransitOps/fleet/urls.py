@@ -1,5 +1,5 @@
 from django.urls import path
-
+app_name = "fleet"
 from .views import (
     VehicleListView,
     vehicle_add,
