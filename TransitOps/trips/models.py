@@ -6,16 +6,17 @@ from fleet.models import Vehicle, Driver
 class Trip(models.Model):
 
     STATUS_CHOICES = (
-        ('Pending', 'Pending'),
-        ('Dispatched', 'Dispatched'),
-        ('In Progress', 'In Progress'),
-        ('Completed', 'Completed'),
-        ('Cancelled', 'Cancelled'),
+        ("Pending", "Pending"),
+        ("Dispatched", "Dispatched"),
+        ("In Progress", "In Progress"),
+        ("Completed", "Completed"),
+        ("Cancelled", "Cancelled"),
     )
 
     trip_id = models.CharField(
         max_length=20,
-        unique=True
+        unique=True,
+        blank=True
     )
 
     source = models.CharField(
@@ -40,7 +41,9 @@ class Trip(models.Model):
         decimal_places=2
     )
 
-    estimated_duration = models.DurationField()
+    estimated_duration = models.PositiveIntegerField(
+        help_text="Estimated Duration (in minutes)"
+    )
 
     revenue = models.DecimalField(
         max_digits=12,
@@ -54,7 +57,7 @@ class Trip(models.Model):
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
-        default='Pending'
+        default="Pending"
     )
 
     remarks = models.TextField(
@@ -68,6 +71,15 @@ class Trip(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True
     )
+
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+
+        super().save(*args, **kwargs)
+
+        if is_new and not self.trip_id:
+            self.trip_id = f"TRIP{self.pk:05d}"
+            super().save(update_fields=["trip_id"])
 
     def __str__(self):
         return self.trip_id

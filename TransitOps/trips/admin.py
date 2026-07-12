@@ -10,6 +10,8 @@ class TripAdmin(admin.ModelAdmin):
         "source",
         "destination",
         "cargo_type",
+        "cargo_weight",
+        "distance",
         "status",
         "start_datetime",
         "end_datetime",
@@ -25,6 +27,7 @@ class TripAdmin(admin.ModelAdmin):
     list_filter = (
         "status",
         "cargo_type",
+        "start_datetime",
     )
 
     ordering = (
@@ -32,6 +35,7 @@ class TripAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = (
+        "trip_id",
         "created_at",
         "updated_at",
     )
