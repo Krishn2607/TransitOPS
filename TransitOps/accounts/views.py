@@ -170,3 +170,34 @@ def change_password(request):
         "accounts/change_password.html",
         {"form": form}
     )
+
+@login_required
+def delete_account(request):
+
+    if request.method == "POST":
+
+        request.user.delete()
+
+        return redirect("login")
+
+    return render(
+        request,
+        "accounts/delete_account.html"
+    )
+
+import os
+
+@login_required
+def delete_profile_image(request):
+
+    profile = request.user.profile
+
+    if profile.profile_image:
+
+        profile.profile_image.delete(save=False)
+
+        profile.profile_image = None
+
+        profile.save()
+
+    return redirect("profile")

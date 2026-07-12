@@ -4,12 +4,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Maintenance
 from .forms import MaintenanceForm
+from django.contrib.auth.decorators import login_required
+from accounts.decorators import allowed_roles
 
 
 # ==========================
 # Dashboard / List
 # ==========================
-
+@login_required
+@allowed_roles(["Fleet Manager", "Safety Officer"])
 def maintenance_list(request):
 
     maintenances = Maintenance.objects.all().order_by("-created_at")
@@ -70,7 +73,8 @@ def maintenance_list(request):
 # ==========================
 # Detail
 # ==========================
-
+@login_required
+@allowed_roles(["Fleet Manager", "Safety Officer"])
 def maintenance_detail(request, pk):
 
     maintenance = get_object_or_404(
@@ -90,7 +94,8 @@ def maintenance_detail(request, pk):
 # ==========================
 # Create
 # ==========================
-
+@login_required
+@allowed_roles(["Fleet Manager", "Safety Officer"])
 def maintenance_create(request):
 
     if request.method == "POST":
@@ -119,7 +124,8 @@ def maintenance_create(request):
 # ==========================
 # Update
 # ==========================
-
+@login_required
+@allowed_roles(["Fleet Manager", "Safety Officer"])
 def maintenance_update(request, pk):
 
     maintenance = get_object_or_404(
@@ -158,7 +164,8 @@ def maintenance_update(request, pk):
 # ==========================
 # Delete
 # ==========================
-
+@login_required
+@allowed_roles(["Fleet Manager"])
 def maintenance_delete(request, pk):
 
     maintenance = get_object_or_404(
