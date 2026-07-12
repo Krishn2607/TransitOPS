@@ -6,28 +6,49 @@ from fleet.models import Vehicle, Driver
 class Trip(models.Model):
 
     STATUS_CHOICES = (
-        ('Pending', 'Pending'),
-        ('Dispatched', 'Dispatched'),
-        ('In Progress', 'In Progress'),
-        ('Completed', 'Completed'),
-        ('Cancelled', 'Cancelled'),
+        ("Pending", "Pending"),
+        ("Dispatched", "Dispatched"),
+        ("In Progress", "In Progress"),
+        ("Completed", "Completed"),
+        ("Cancelled", "Cancelled"),
     )
 
-    trip_id = models.CharField(max_length=20, unique=True)
+    trip_id = models.CharField(
+        max_length=20,
+        unique=True,
+        blank=True
+    )
 
-    source = models.CharField(max_length=100)
+    source = models.CharField(
+        max_length=100
+    )
 
-    destination = models.CharField(max_length=100)
+    destination = models.CharField(
+        max_length=100
+    )
 
-    cargo_type = models.CharField(max_length=100)
+    cargo_type = models.CharField(
+        max_length=100
+    )
 
-    cargo_weight = models.DecimalField(max_digits=10, decimal_places=2)
+    cargo_weight = models.DecimalField(
+        max_digits=10,
+        decimal_places=2
+    )
 
-    distance = models.DecimalField(max_digits=10, decimal_places=2)
+    distance = models.DecimalField(
+        max_digits=10,
+        decimal_places=2
+    )
 
-    estimated_duration = models.DurationField()
+    estimated_duration = models.PositiveIntegerField(
+        help_text="Estimated Duration (in minutes)"
+    )
 
-    revenue = models.DecimalField(max_digits=12, decimal_places=2)
+    revenue = models.DecimalField(
+        max_digits=12,
+        decimal_places=2
+    )
 
     start_datetime = models.DateTimeField()
 
@@ -39,14 +60,30 @@ class Trip(models.Model):
         default="Pending"
     )
 
-    remarks = models.TextField(blank=True)
+    remarks = models.TextField(
+        blank=True
+    )
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
 
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+
+        super().save(*args, **kwargs)
+
+        if is_new and not self.trip_id:
+            self.trip_id = f"TRIP{self.pk:05d}"
+            super().save(update_fields=["trip_id"])
 
     def __str__(self):
         return self.trip_id
+
 
 class TripAssignment(models.Model):
 
@@ -72,13 +109,18 @@ class TripAssignment(models.Model):
         null=True
     )
 
-    assigned_at = models.DateTimeField(auto_now_add=True)
+    assigned_at = models.DateTimeField(
+        auto_now_add=True
+    )
 
-    notes = models.TextField(blank=True)
+    notes = models.TextField(
+        blank=True
+    )
 
     def __str__(self):
         return f"{self.trip.trip_id}"
-    
+
+
 class TripStatusHistory(models.Model):
 
     trip = models.ForeignKey(
@@ -87,9 +129,15 @@ class TripStatusHistory(models.Model):
         related_name="status_history"
     )
 
-    old_status = models.CharField(max_length=20)
+    old_status = models.CharField(
+        max_length=20,
+        choices=Trip.STATUS_CHOICES
+    )
 
-    new_status = models.CharField(max_length=20)
+    new_status = models.CharField(
+        max_length=20,
+        choices=Trip.STATUS_CHOICES
+    )
 
     changed_by = models.ForeignKey(
         User,
@@ -97,9 +145,13 @@ class TripStatusHistory(models.Model):
         null=True
     )
 
-    changed_at = models.DateTimeField(auto_now_add=True)
+    changed_at = models.DateTimeField(
+        auto_now_add=True
+    )
 
-    remarks = models.TextField(blank=True)
+    remarks = models.TextField(
+        blank=True
+    )
 
     def __str__(self):
         return f"{self.trip.trip_id} : {self.new_status}"

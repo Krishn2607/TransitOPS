@@ -4,14 +4,40 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
 
-    # Accounts
-    path("", include("accounts.urls")),
+    path(
+        "admin/",
+        admin.site.urls
+    ),
 
-    # Maintenance
-    path("maintenance/", include("maintenance.urls")),
+    path(
+        "",
+        include("dashboard.urls")
+    ),
+
+    path(
+        "",
+        include("accounts.urls")
+    ),
+
+    path(
+        "fleet/",
+        include("fleet.urls")
+    ),
+
+    path(
+        "trips/",
+        include("trips.urls")
+    ),
+
+    path(
+        "maintenance/",
+        include("maintenance.urls")
+    ),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT
+    )

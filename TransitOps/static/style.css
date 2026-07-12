@@ -1,0 +1,31 @@
+.card{
+    border-radius:15px;
+    transition:all .3s ease;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 15px 30px rgba(0,0,0,.15);
+}
+
+.table tbody tr:hover{
+    background:#f8f9ff;
+}
+
+.btn{
+    border-radius:10px;
+}
+
+.badge{
+    padding:8px 12px;
+    font-size:13px;
+}
+
+.card-body i{
+    opacity:.25;
+}
+
+.table{
+    border-radius:10px;
+    overflow:hidden;
+}
