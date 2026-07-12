@@ -50,3 +50,14 @@ def maintenance_delete(request, pk):
     return render(request, "maintenance/maintenance_confirm_delete.html", {
         "maintenance": maintenance
     })
+    
+def maintenance_detail(request, pk):
+    maintenance = get_object_or_404(Maintenance, pk=pk)
+
+    return render(
+        request,
+        "maintenance/maintenance_detail.html",
+        {
+            "maintenance": maintenance
+        }
+    )

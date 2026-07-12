@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}
+Delete Maintenance
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            <div class="card shadow-lg border-0">
+
+                <div class="card-header text-white text-center"
+                     style="background: linear-gradient(90deg,#dc3545,#b02a37);">
+
+                    <h2 class="mb-0">
+
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+
+                        Delete Maintenance Record
+
+                    </h2>
+
+                </div>
+
+                <div class="card-body p-5 text-center">
+
+                    <div class="display-1 text-danger mb-4">
+
+                        <i class="bi bi-trash-fill"></i>
+
+                    </div>
+
+                    <h3 class="fw-bold">
+
+                        Are you sure?
+
+                    </h3>
+
+                    <p class="text-muted fs-5">
+
+                        You are about to permanently delete this maintenance record.
+
+                        <br>
+
+                        This action <strong>cannot be undone.</strong>
+
+                    </p>
+
+                    <hr class="my-4">
+
+                    <div class="card bg-light border-0">
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+
+                                    <strong>Vehicle</strong>
+
+                                    <br>
+
+                                    {{ maintenance.vehicle.registration_number }}
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    <strong>Issue</strong>
+
+                                    <br>
+
+                                    {{ maintenance.issue_title }}
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    <strong>Priority</strong>
+
+                                    <br>
+
+                                    {% if maintenance.priority == "Critical" %}
+                                        <span class="badge bg-danger">{{ maintenance.priority }}</span>
+
+                                    {% elif maintenance.priority == "High" %}
+                                        <span class="badge bg-warning text-dark">{{ maintenance.priority }}</span>
+
+                                    {% elif maintenance.priority == "Medium" %}
+                                        <span class="badge bg-primary">{{ maintenance.priority }}</span>
+
+                                    {% else %}
+                                        <span class="badge bg-success">{{ maintenance.priority }}</span>
+                                    {% endif %}
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    <strong>Status</strong>
+
+                                    <br>
+
+                                    {% if maintenance.status == "Completed" %}
+                                        <span class="badge bg-success">{{ maintenance.status }}</span>
+
+                                    {% elif maintenance.status == "Pending" %}
+                                        <span class="badge bg-warning text-dark">{{ maintenance.status }}</span>
+
+                                    {% elif maintenance.status == "Cancelled" %}
+                                        <span class="badge bg-danger">{{ maintenance.status }}</span>
+
+                                    {% else %}
+                                        <span class="badge bg-info text-dark">{{ maintenance.status }}</span>
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <form method="POST" class="mt-5">
+
+                        {% csrf_token %}
+
+                        <a href="{% url 'maintenance_list' %}"
+                           class="btn btn-secondary btn-lg me-3">
+
+                            <i class="bi bi-arrow-left-circle"></i>
+
+                            Cancel
+
+                        </a>
+
+                        <button type="submit"
+                                class="btn btn-danger btn-lg">
+
+                            <i class="bi bi-trash-fill"></i>
+
+                            Delete Record
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
