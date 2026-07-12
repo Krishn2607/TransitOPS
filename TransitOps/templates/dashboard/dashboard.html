@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="mb-4">
+        <h2 class="fw-bold">Dashboard</h2>
+        <p class="text-muted">
+            Welcome {{ user.first_name }} {{ user.last_name }}
+        </p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h6>Total Vehicles</h6>
+                    <h2 class="text-primary">{{ total_vehicles }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h6>Total Drivers</h6>
+                    <h2 class="text-success">{{ total_drivers }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h6>Total Trips</h6>
+                    <h2 class="text-warning">{{ total_trips }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h6>Total Revenue</h6>
+                    <h2 class="text-danger">
+                        ₹ {{ total_revenue }}
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-primary text-white">
+                    Recent Trips
+                </div>
+
+                <div class="card-body table-responsive">
+
+                    <table class="table table-hover">
+
+                        <thead>
+                            <tr>
+                                <th>Trip ID</th>
+                                <th>Source</th>
+                                <th>Destination</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                        {% for trip in recent_trips %}
+
+                        <tr>
+
+                            <td>{{ trip.trip_id }}</td>
+                            <td>{{ trip.source }}</td>
+                            <td>{{ trip.destination }}</td>
+                            <td>{{ trip.status }}</td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="4" class="text-center">
+
+                                No Trips Available
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-success text-white">
+
+                    Recent Vehicles
+
+                </div>
+
+                <div class="card-body table-responsive">
+
+                    <table class="table table-hover">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Registration</th>
+                                <th>Model</th>
+                                <th>Status</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                        {% for vehicle in recent_vehicles %}
+
+                        <tr>
+
+                            <td>{{ vehicle.registration_number }}</td>
+
+                            <td>{{ vehicle.vehicle_model }}</td>
+
+                            <td>{{ vehicle.status }}</td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="3" class="text-center">
+
+                                No Vehicles Available
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm mt-4">
+
+        <div class="card-header bg-danger text-white">
+
+            Recent Maintenance
+
+        </div>
+
+        <div class="card-body table-responsive">
+
+            <table class="table table-bordered">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Vehicle</th>
+                        <th>Issue</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for maintenance in recent_maintenance %}
+
+                <tr>
+
+                    <td>{{ maintenance.vehicle.registration_number }}</td>
+
+                    <td>{{ maintenance.issue_title }}</td>
+
+                    <td>{{ maintenance.priority }}</td>
+
+                    <td>{{ maintenance.status }}</td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="4" class="text-center">
+
+                        No Maintenance Records
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
