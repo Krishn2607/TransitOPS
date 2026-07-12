@@ -4,12 +4,23 @@ from .models import Vehicle, Driver
 from .forms import VehicleForm, DriverForm
 from django.urls import reverse_lazy
 
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+from accounts.decorators import allowed_roles
+
+@method_decorator(
+    [login_required, allowed_roles(["Fleet Manager"])],
+    name="dispatch"
+)
 class VehicleListView(ListView):
     model = Vehicle
     template_name = "fleet/vehicle_list.html"
     context_object_name = "vehicles"
     paginate_by = 10
 
+
+@allowed_roles(["Fleet Manager"])
 def vehicle_add(request):
 
     if request.method == "POST":
@@ -36,12 +47,20 @@ def vehicle_add(request):
         }
     )
 
+@method_decorator(
+    [login_required, allowed_roles(["Fleet Manager"])],
+    name="dispatch"
+)
 class VehicleDetailView(DetailView):
 
     model = Vehicle
     template_name = "fleet/vehicle_detail.html"
     context_object_name = "vehicle"
 
+@method_decorator(
+    [login_required, allowed_roles(["Fleet Manager"])],
+    name="dispatch"
+)
 class VehicleUpdateView(UpdateView):
 
     model = Vehicle
@@ -49,6 +68,10 @@ class VehicleUpdateView(UpdateView):
     template_name = "fleet/vehicle_add.html"
     success_url = reverse_lazy("fleet:vehicle_list")
 
+@method_decorator(
+    [login_required, allowed_roles(["Fleet Manager"])],
+    name="dispatch"
+)
 class VehicleDeleteView(DeleteView):
 
     model = Vehicle
