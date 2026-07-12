@@ -13,21 +13,39 @@ class Trip(models.Model):
         ('Cancelled', 'Cancelled'),
     )
 
-    trip_id = models.CharField(max_length=20, unique=True)
+    trip_id = models.CharField(
+        max_length=20,
+        unique=True
+    )
 
-    source = models.CharField(max_length=100)
+    source = models.CharField(
+        max_length=100
+    )
 
-    destination = models.CharField(max_length=100)
+    destination = models.CharField(
+        max_length=100
+    )
 
-    cargo_type = models.CharField(max_length=100)
+    cargo_type = models.CharField(
+        max_length=100
+    )
 
-    cargo_weight = models.DecimalField(max_digits=10, decimal_places=2)
+    cargo_weight = models.DecimalField(
+        max_digits=10,
+        decimal_places=2
+    )
 
-    distance = models.DecimalField(max_digits=10, decimal_places=2)
+    distance = models.DecimalField(
+        max_digits=10,
+        decimal_places=2
+    )
 
     estimated_duration = models.DurationField()
 
-    revenue = models.DecimalField(max_digits=12, decimal_places=2)
+    revenue = models.DecimalField(
+        max_digits=12,
+        decimal_places=2
+    )
 
     start_datetime = models.DateTimeField()
 
@@ -36,17 +54,24 @@ class Trip(models.Model):
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
-        default="Pending"
+        default='Pending'
     )
 
-    remarks = models.TextField(blank=True)
+    remarks = models.TextField(
+        blank=True
+    )
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
 
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
 
     def __str__(self):
         return self.trip_id
+
 
 class TripAssignment(models.Model):
 
@@ -72,13 +97,18 @@ class TripAssignment(models.Model):
         null=True
     )
 
-    assigned_at = models.DateTimeField(auto_now_add=True)
+    assigned_at = models.DateTimeField(
+        auto_now_add=True
+    )
 
-    notes = models.TextField(blank=True)
+    notes = models.TextField(
+        blank=True
+    )
 
     def __str__(self):
         return f"{self.trip.trip_id}"
-    
+
+
 class TripStatusHistory(models.Model):
 
     trip = models.ForeignKey(
@@ -87,9 +117,15 @@ class TripStatusHistory(models.Model):
         related_name="status_history"
     )
 
-    old_status = models.CharField(max_length=20)
+    old_status = models.CharField(
+        max_length=20,
+        choices=Trip.STATUS_CHOICES
+    )
 
-    new_status = models.CharField(max_length=20)
+    new_status = models.CharField(
+        max_length=20,
+        choices=Trip.STATUS_CHOICES
+    )
 
     changed_by = models.ForeignKey(
         User,
@@ -97,9 +133,13 @@ class TripStatusHistory(models.Model):
         null=True
     )
 
-    changed_at = models.DateTimeField(auto_now_add=True)
+    changed_at = models.DateTimeField(
+        auto_now_add=True
+    )
 
-    remarks = models.TextField(blank=True)
+    remarks = models.TextField(
+        blank=True
+    )
 
     def __str__(self):
         return f"{self.trip.trip_id} : {self.new_status}"
