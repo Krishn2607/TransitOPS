@@ -89,7 +89,6 @@ class TripAssignmentForm(forms.ModelForm):
         ]
 
         widgets = {
-
             "trip": forms.Select(
                 attrs={"class": "form-select"}
             ),
@@ -128,22 +127,11 @@ class TripStatusHistoryForm(forms.ModelForm):
         model = TripStatusHistory
 
         fields = [
-            "trip",
-            "old_status",
             "new_status",
             "remarks",
         ]
 
         widgets = {
-
-            "trip": forms.Select(
-                attrs={"class": "form-select"}
-            ),
-
-            "old_status": forms.Select(
-                attrs={"class": "form-select"}
-            ),
-
             "new_status": forms.Select(
                 attrs={"class": "form-select"}
             ),
