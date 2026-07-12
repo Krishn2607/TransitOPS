@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from accounts.decorators import allowed_roles
 
 from .models import Trip, TripAssignment, TripStatusHistory
 from .forms import (
@@ -12,6 +13,7 @@ from .forms import (
 from fleet.models import Vehicle, Driver
 
 @login_required
+@allowed_roles(["Fleet Manager", "Dispatcher"])
 def trip_list(request):
 
     trips = Trip.objects.all().order_by("-created_at")
@@ -27,6 +29,7 @@ def trip_list(request):
     )
 
 @login_required
+@allowed_roles(["Fleet Manager", "Dispatcher"])
 def trip_create(request):
 
     if request.method == "POST":
@@ -62,7 +65,9 @@ def trip_create(request):
         "trips/trip_form.html",
         context
     )
+
 @login_required
+@allowed_roles(["Fleet Manager", "Dispatcher"])
 def trip_detail(request, pk):
 
     trip = get_object_or_404(
@@ -92,6 +97,7 @@ def trip_detail(request, pk):
 
 
 @login_required
+@allowed_roles(["Fleet Manager", "Dispatcher"])
 def trip_update(request, pk):
 
     trip = get_object_or_404(
@@ -139,6 +145,7 @@ def trip_update(request, pk):
 
 
 @login_required
+@allowed_roles(["Fleet Manager", "Dispatcher"])
 def trip_delete(request, pk):
 
     trip = get_object_or_404(
@@ -168,7 +175,9 @@ def trip_delete(request, pk):
         "trips/trip_confirm_delete.html",
         context
     )
+
 @login_required
+@allowed_roles(["Fleet Manager", "Dispatcher"])
 def trip_assign(request, trip_id):
 
     trip = get_object_or_404(
@@ -260,6 +269,7 @@ def trip_assign(request, trip_id):
     )
 
 @login_required
+@allowed_roles(["Fleet Manager", "Dispatcher"])
 def trip_change_status(request, trip_id):
 
     trip = get_object_or_404(
@@ -333,6 +343,7 @@ def trip_change_status(request, trip_id):
     )
 
 @login_required
+@allowed_roles(["Fleet Manager", "Dispatcher"])
 def trip_status_history(request, trip_id):
 
     trip = get_object_or_404(
